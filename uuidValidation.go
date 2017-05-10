@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"github.com/satori/go.uuid"
+	"strings"
 )
 
-func validateUuid(contentUUID string) error {
+func ValidateUUID(contentUUID string) error {
 	parsedUUID, err := uuid.FromString(contentUUID)
 	if err != nil {
 		return err
 	}
-	if contentUUID != parsedUUID.String() {
+	if strings.ToLower(contentUUID) != parsedUUID.String() {
 		return fmt.Errorf("Parsed UUID (%v) is different than the given uuid (%v).", parsedUUID, contentUUID)
 	}
 	return nil
