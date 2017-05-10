@@ -22,17 +22,22 @@ func NewUUIDDeriverWith(salt Salt) *deriveUUID {
 	return &deriveUUID{saltUUIDLsb: saltToUUIDLsb(salt)}
 }
 
-// Get a new UUID based on another UUID using the internal salt.
-func (du *deriveUUID) From(originalUUID UUID) (UUID, error) {
+// Derive a new UUID based on another UUID using the internal salt.
+func (du *deriveUUID) From(originalUUID *UUID) (*UUID, error) {
 	return otherUUID(originalUUID, du.saltUUIDLsb)
 }
 
-func otherUUID(otherUUID UUID, saltUUIDLsb *bitset.BitSet) (UUID, error) {
+// Revert a UUID derived with From, based on another UUID using the internal salt.
+func (du *deriveUUID) Revert(derivedUUID *UUID) (*UUID, error) {
+	return otherUUID(derivedUUID, du.saltUUIDLsb)
+}
+
+func otherUUID(otherUUID *UUID, saltUUIDLsb *bitset.BitSet) (*UUID, error) {
 	uuidBits := toBitSet(otherUUID.lsb)
 	uuidBits.InPlaceSymmetricDifference(saltUUIDLsb) //XOR
 
 	lsb, err := strconv.ParseUint(strings.TrimSuffix(uuidBits.DumpAsBits(), "."), 2, 64)
-	return UUID{otherUUID.msb, uint64(lsb)}, err
+	return &UUID{otherUUID.msb, uint64(lsb)}, err
 }
 
 func saltToUUIDLsb(salt Salt) *bitset.BitSet {
