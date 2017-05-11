@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestGenerateUUID_NewV5UUIDFrom_IsSuccessful(t *testing.T) {
+func Test_NewV5UUIDFrom_IsSuccessful(t *testing.T) {
 	resultUUIDRadu := NewV5UUIDFrom("http://api.ft.com/duders/Radu")
 	resultUUIDBogdan := NewV5UUIDFrom("http://api.ft.com/duders/Bogdan")
 	resultUUIDHuni := NewV5UUIDFrom("http://api.ft.com/duders/Huni")
@@ -19,7 +19,7 @@ func TestGenerateUUID_NewV5UUIDFrom_IsSuccessful(t *testing.T) {
 	assert.Equal(t, "00006a43-00dd-5084-ba5e-1b05d24a06e0", resultUUIDRandomID.String(), "Expected UUID didn't matched")
 }
 
-func TestDeriveUUID_NewV5UUIDFrom_IsRepeatable(t *testing.T) {
+func Test_NewV5UUIDFrom_IsRepeatable(t *testing.T) {
 	someString := "some string"
 
 	firstGeneratedUUID := NewV5UUIDFrom(someString)
