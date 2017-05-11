@@ -1,8 +1,8 @@
 package uuidutils
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 var uuidDeriver = NewUUIDDeriverWith(IMAGE_SET)
@@ -54,7 +54,6 @@ func Test_Revert_UUIDIsReversible(t *testing.T) {
 
 	assert.Equal(t, originalUUID.String(), reversedOriginalUUID.String(), "Derived original UUID didn't matched same derived UUID.")
 }
-
 
 func Test_Revert_SameSaltSameResults(t *testing.T) {
 	someUUID, _ := NewUUIDFromString("0000ea79-00a5-504e-a28d-11bd108b35ac")

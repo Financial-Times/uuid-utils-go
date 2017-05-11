@@ -1,8 +1,8 @@
 package uuidutils
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func Test_ValidateUUID_ValidUUIDLowercase(t *testing.T) {
