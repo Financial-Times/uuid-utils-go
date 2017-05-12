@@ -43,7 +43,7 @@ func Test_From_DifferentSaltsDifferentResults(t *testing.T) {
 	firstSaltDerivedUUID, _ := uuidDeriver.From(someUUID)
 	secondSaltDerivedUUID, _ := otherDeriver.From(someUUID)
 
-	assert.NotEqual(t, firstSaltDerivedUUID.String(), secondSaltDerivedUUID.String(), "Derived original UUID didn't matched same derived UUID.")
+	assert.NotEqual(t, firstSaltDerivedUUID.String(), secondSaltDerivedUUID.String(), "Derived UUID with first salt, matched derived UUID with second salt.")
 }
 
 func Test_From_UUIDIsReversible(t *testing.T) {
@@ -52,5 +52,5 @@ func Test_From_UUIDIsReversible(t *testing.T) {
 	derivedOriginalUUID, _ := uuidDeriver.From(originalUUID)
 	reversedOriginalUUID, _ := uuidDeriver.From(derivedOriginalUUID)
 
-	assert.Equal(t, originalUUID.String(), reversedOriginalUUID.String(), "Derived original UUID didn't matched same derived UUID.")
+	assert.Equal(t, originalUUID.String(), reversedOriginalUUID.String(), "The 2 times derived UUID didn't match the original UUID.")
 }
