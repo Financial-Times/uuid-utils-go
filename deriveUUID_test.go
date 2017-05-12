@@ -46,28 +46,11 @@ func Test_From_DifferentSaltsDifferentResults(t *testing.T) {
 	assert.NotEqual(t, firstSaltDerivedUUID.String(), secondSaltDerivedUUID.String(), "Derived original UUID didn't matched same derived UUID.")
 }
 
-func Test_Revert_UUIDIsReversible(t *testing.T) {
+func Test_From_UUIDIsReversible(t *testing.T) {
 	originalUUID, _ := NewUUIDFromString("0000ea79-00a5-504e-a28d-11bd108b35ac")
 
 	derivedOriginalUUID, _ := uuidDeriver.From(originalUUID)
-	reversedOriginalUUID, _ := uuidDeriver.Revert(derivedOriginalUUID)
+	reversedOriginalUUID, _ := uuidDeriver.From(derivedOriginalUUID)
 
 	assert.Equal(t, originalUUID.String(), reversedOriginalUUID.String(), "Derived original UUID didn't matched same derived UUID.")
-}
-
-func Test_Revert_SameSaltSameResults(t *testing.T) {
-	someUUID, _ := NewUUIDFromString("0000ea79-00a5-504e-a28d-11bd108b35ac")
-
-	firstDerivedUUID, _ := uuidDeriver.Revert(someUUID)
-	secondDerivedUUID, _ := uuidDeriver.Revert(someUUID)
-
-	assert.Equal(t, firstDerivedUUID.String(), secondDerivedUUID.String(), "Derived original UUID didn't matched same derived UUID.")
-}
-
-func Test_Revert_DifferentSaltsDifferentResults(t *testing.T) {
-	someUUID, _ := NewUUIDFromString("0000ea79-00a5-504e-a28d-11bd108b35ac")
-	firstSaltDerivedUUID, _ := uuidDeriver.Revert(someUUID)
-	secondSaltDerivedUUID, _ := otherDeriver.Revert(someUUID)
-
-	assert.NotEqual(t, firstSaltDerivedUUID.String(), secondSaltDerivedUUID.String(), "Derived original UUID didn't matched same derived UUID.")
 }

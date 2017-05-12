@@ -17,19 +17,15 @@ type deriveUUID struct {
 	saltUUIDLsb *bitset.BitSet
 }
 
-// Create a UUID deriver with the given salt.
+// NewUUIDDeriverWith creates a UUID deriver with the given salt.
 func NewUUIDDeriverWith(salt Salt) *deriveUUID {
 	return &deriveUUID{saltUUIDLsb: saltToUUIDLsb(salt)}
 }
 
-// Derive a new UUID based on another UUID using the internal salt.
+// From derives a new UUID based on another UUID using the internal salt.
+// The function is reversible, so using it again on the derived UUID will obtain the original UUID.
 func (du *deriveUUID) From(originalUUID *UUID) (*UUID, error) {
 	return otherUUID(originalUUID, du.saltUUIDLsb)
-}
-
-// Revert a UUID derived with From, based on another UUID using the internal salt.
-func (du *deriveUUID) Revert(derivedUUID *UUID) (*UUID, error) {
-	return otherUUID(derivedUUID, du.saltUUIDLsb)
 }
 
 func otherUUID(otherUUID *UUID, saltUUIDLsb *bitset.BitSet) (*UUID, error) {

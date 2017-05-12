@@ -17,7 +17,7 @@ func Test_ValidateUUID_ValidUUIDUppercase(t *testing.T) {
 	assert.Nil(t, err, "Valid UUID got error on validation.")
 }
 
-func Test_ValidateUUID_NilUUID(t *testing.T) {
+func Test_ValidateUUID_EmptyString(t *testing.T) {
 	err := ValidateUUID("")
 	assert.NotNil(t, err, "Valid UUID got error on validation.")
 }

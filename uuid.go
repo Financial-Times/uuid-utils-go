@@ -42,13 +42,13 @@ func NewNameUUIDFromBytes(bytes []byte) *UUID {
 func NewUUIDFromString(uuidString string) (*UUID, error) {
 	components := strings.Split(uuidString, "-")
 	if len(components) != 5 {
-		return &UUID{0, 0}, errors.New("Invalid UUID string")
+		return nil, errors.New("Invalid UUID string")
 	}
 
 	intComponents, err := hexToInt(components)
 
 	if err != nil {
-		return &UUID{0, 0}, err
+		return nil, err
 	}
 
 	msb := intComponents[0]

@@ -2,17 +2,13 @@ package uuidutils
 
 import (
 	"fmt"
-	"github.com/satori/go.uuid"
 	"strings"
 )
 
 func ValidateUUID(contentUUID string) error {
-	parsedUUID, err := uuid.FromString(contentUUID)
-	if err != nil {
-		return err
-	}
-	if strings.ToLower(contentUUID) != parsedUUID.String() {
-		return fmt.Errorf("Parsed UUID (%v) is different than the given uuid (%v).", parsedUUID, contentUUID)
+	parsedUUID, err := NewUUIDFromString(contentUUID)
+	if err != nil || strings.ToLower(contentUUID) != parsedUUID.String() {
+		return fmt.Errorf("Given UUID: (%v) is invalid!", contentUUID)
 	}
 	return nil
 }

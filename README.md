@@ -37,7 +37,7 @@ Note2: change in the fetch example above the appropriate tag release you want: @
 
             derivedUUID := uuidDeriver.From(originalUUID)
             
-            revertToOriginalUUID := uuidDeriver.Revert(derivedUUID)
+            revertToOriginalUUID := uuidDeriver.From(derivedUUID)
             
 2. Generate an UUID from a random string:
 
