@@ -3,21 +3,22 @@ package uuidutils
 import (
 	"crypto/sha1"
 	"encoding/binary"
+	"net/url"
 )
 
 const (
 	NAMESPACE_URL_ID = "6ba7b811-9dad-11d1-80b4-00c04fd430c8"
 )
 
-// NewGenerateUUID gives a new V5 UUID based on a random string
-// Corresponds to com.ft.uuidutils.GenerateUuid#from(final String string)
-func NewV5UUIDFrom(str string) UUID {
-	digest := newV5Digest(NAMESPACE_URL_ID, str)
+// NewV5UUIDFromURL generates a new V5 UUID based on an URL
+// Corresponds to com.ft.uuidutils.GenerateV5UUID#fromURL(final URL url)
+func NewV5UUIDFromURL(url *url.URL) *UUID {
+	digest := newV5Digest(NAMESPACE_URL_ID, url.String())
 
 	hi := createMSB(digest)
 	lo := createLSB(digest)
 
-	return UUID{binary.BigEndian.Uint64(hi), binary.BigEndian.Uint64(lo)}
+	return &UUID{binary.BigEndian.Uint64(hi), binary.BigEndian.Uint64(lo)}
 }
 
 func newV5Digest(ns string, str string) []byte {

@@ -5,12 +5,17 @@
 
 This ia a library containing UUID generation and validation used in UPP's Golang services.
 
-There are 3 categories of operations offered (check examples at the bottom):
-- deriving an UUID from another UUID (and reverting): in deriveUUID.go
-- generating an UUID from a random string: in generateUUID.go
-- validating an UUID: in uuidValidation.go
+#### What methods should you use?
 
-Note: this library also contains methods that replicate java.util.UUID class (in uuid.go), which also offers a method to generate UUID (i.e. NewNameUUIDFromBytes) that uses the old V3 UUID implementation, instead of V5, so it is advised not to use it if possible (use the method NewV5UUIDFrom).
+1. Generating an UUID based on another UUID: methods in deriveUUID.go
+
+2. Generating an UUID from an random string (V3 version, i.e. using MD5 hashing): methods in generateV3UUID.go
+
+3. Generating an UUID from an URL (V5 version, i.e. using SHA1 hashing): methods in generateV5UUID.go
+
+4. Validating an UUID: methods in uuidValidation.go
+
+Note: this library also contains methods that replicate java.util.UUID class (in uuid.go), for cases where it's already in use.
 
 ## Installation:
 
@@ -30,7 +35,7 @@ Note2: change in the fetch example above the appropriate tag release you want: @
 
 ## Usage examples:
 
-1. Deriving an UUID from another UUID (and reverting):
+1. Generating an UUID based on another UUID:
 
             originalUUID, _ := uuidutils.NewUUIDFromString("0000ea79-00a5-504e-a28d-11bd108b35ac")
             uuidDeriver := uuidutils.NewUUIDDeriverWith(uuidutils.IMAGE_SET)
@@ -39,12 +44,17 @@ Note2: change in the fetch example above the appropriate tag release you want: @
             
             revertToOriginalUUID := uuidDeriver.From(derivedUUID)
             
-2. Generate an UUID from a random string:
+2. Generating an UUID from an random string (V3 version, i.e. using MD5 hashing):
 
             someString := "1AB23ad1x34"
-            generatedUUID := uuidutils.NewV5UUIDFrom(someString)
+            generatedUUID := uuidutils.NewV3UUID(someString)
 
-3. Validate an UUID:
+3. Generating an UUID from an URL (V5 version, i.e. using SHA1 hashing):
+
+            someString := "1AB23ad1x34"
+            generatedUUID := uuidutils.NewDoubleDigestedV3UUID(someString)
+
+4. Validating an UUID:
 
             someUUID := "0000ea79-00a5-504e-a28d-11bd108b35ac"
             err := ValidateUUID(validUUID)
