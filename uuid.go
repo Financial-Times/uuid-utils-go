@@ -14,29 +14,6 @@ type UUID struct {
 	lsb uint64
 }
 
-// NewNameUUIDFromBytes creates a type 3 - name based - UUID
-// based on the specified byte array.
-// Corresponds to java.util.UUID#nameUUIDFromBytes
-func NewNameUUIDFromBytes(bytes []byte) *UUID {
-	md5Hash := md5.Sum(bytes)
-	md5Hash[6] &= 0x0f /* clear version        */
-	md5Hash[6] |= 0x30 /* set to version 3     */
-	md5Hash[8] &= 0x3f /* clear variant        */
-	md5Hash[8] |= 0x80 /* set to IETF variant  */
-
-	var msb uint64
-	var lsb uint64
-
-	for i := 0; i < 8; i++ {
-		msb = (msb << 8) | (uint64(md5Hash[i]) & 0xff)
-	}
-	for i := 8; i < 16; i++ {
-		lsb = (lsb << 8) | (uint64(md5Hash[i]) & 0xff)
-	}
-
-	return &UUID{msb, lsb}
-}
-
 // NewUUIDFromString creates a UUID from the standard string representation
 // Corresponds to java.util.UUID#fromString
 func NewUUIDFromString(uuidString string) (*UUID, error) {
@@ -75,6 +52,30 @@ func (uuid *UUID) String() string {
 	parts[4] = digits(uuid.lsb, 12)
 
 	return strings.Join(parts, "-")
+}
+
+// NewNameUUIDFromBytes creates a type 3 - name based - UUID
+// based on the specified byte array.
+// Corresponds to java.util.UUID#nameUUIDFromBytes
+// NOTE: for consistency please use our wrapper method NewV3UUID (which just wraps this method)
+func newNameUUIDFromBytes(bytes []byte) *UUID {
+	md5Hash := md5.Sum(bytes)
+	md5Hash[6] &= 0x0f /* clear version        */
+	md5Hash[6] |= 0x30 /* set to version 3     */
+	md5Hash[8] &= 0x3f /* clear variant        */
+	md5Hash[8] |= 0x80 /* set to IETF variant  */
+
+	var msb uint64
+	var lsb uint64
+
+	for i := 0; i < 8; i++ {
+		msb = (msb << 8) | (uint64(md5Hash[i]) & 0xff)
+	}
+	for i := 8; i < 16; i++ {
+		lsb = (lsb << 8) | (uint64(md5Hash[i]) & 0xff)
+	}
+
+	return &UUID{msb, lsb}
 }
 
 // Corresponds to java.util.UUID#digits

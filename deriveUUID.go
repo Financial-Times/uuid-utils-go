@@ -37,7 +37,7 @@ func otherUUID(otherUUID *UUID, saltUUIDLsb *bitset.BitSet) (*UUID, error) {
 }
 
 func saltToUUIDLsb(salt Salt) *bitset.BitSet {
-	return toBitSet(NewNameUUIDFromBytes([]byte(string(salt))).lsb)
+	return toBitSet(newNameUUIDFromBytes([]byte(string(salt))).lsb)
 }
 
 func toBitSet(number uint64) *bitset.BitSet {
